@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Estadística - PUMA LIMA LUIS</title>
+  <meta name="description" content="Panel de acceso a reportes y tableros estadísticos." />
+
+  <style>
+    :root{
+      /* Claro por defecto */
+      --bg: #eef4ff;
+      --bg2:#f7fbff;
+      --card: rgba(255,255,255,.80);
+      --card2: rgba(255,255,255,.92);
+      --text:#0f172a;
+      --muted:#334155;
+      --line: rgba(15,23,42,.14);
+      --brand: #0ea5e9;
+      --brand2:#22c55e;
+      --brand3:#a78bfa;
+      --radius: 18px;
+      --max: 1100px;
+      --shadow: 0 18px 50px rgba(2,6,23,.12);
+      --shadow2: 0 10px 26px rgba(2,6,23,.10);
+
+      --hoverY: -6px;
+      --hoverScale: 1.02;
+      --hoverShadow: 0 26px 60px rgba(2,6,23,.18);
+    }
+
+    /* Oscuro (si lo activas) */
+    html[data-theme="dark"]{
+      --bg:#0b1220;
+      --bg2:#0f1a31;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.08);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.72);
+      --line:rgba(255,255,255,.12);
+      --brand:#5eead4;
+      --brand2:#60a5fa;
+      --brand3:#a78bfa;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --shadow2: 0 10px 26px rgba(0,0,0,.22);
+      --hoverShadow: 0 26px 60px rgba(0,0,0,.45);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.18), transparent 60%),
+        radial-gradient(1000px 700px at 110% 10%, rgba(34,197,94,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg));
+    }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:auto;padding:0 18px}
+
+    header{
+      position:sticky;top:0;z-index:10;
+      background: color-mix(in srgb, var(--card2) 78%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:12px;padding:12px 0;flex-wrap:wrap;
+    }
+    .brand{
+      display:flex;gap:12px;align-items:center;
+      min-width: 220px;
+    }
+    .brand img{
+      width:44px;height:44px;border-radius:12px;
+      border:1px solid var(--line);
+      object-fit:cover;background:rgba(255,255,255,.06);
+    }
+    .brand strong{display:block;line-height:1.1}
+    .brand small{color:var(--muted)}
+    nav{display:flex;gap:10px;flex-wrap:wrap}
+    nav a{
+      padding:9px 12px;border-radius:999px;
+      border:1px solid var(--line);
+      font-size:13px;color:var(--muted);
+      background: color-mix(in srgb, var(--card) 85%, transparent);
+      transition: transform .12s ease, filter .12s ease;
+    }
+    nav a:hover{color:var(--text); transform: translateY(-1px); filter: brightness(.98);}
+
+    .hero{padding:28px 0 12px}
+    .heroCard{
+      border:1px solid color-mix(in srgb, var(--brand) 25%, var(--line));
+      border-radius:24px;
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--brand) 24%, transparent),
+        color-mix(in srgb, var(--brand2) 20%, transparent),
+        color-mix(in srgb, var(--brand3) 16%, transparent)
+      );
+      box-shadow: var(--shadow);
+      padding:26px;
+      position:relative;
+      overflow:hidden;
+    }
+    .heroCard:before{
+      content:"";
+      position:absolute;
+      inset:-40px -40px auto auto;
+      width:220px;height:220px;
+      background: radial-gradient(circle at 30% 30%,
+        color-mix(in srgb, var(--brand2) 40%, transparent),
+        transparent 65%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    h1{margin:0 0 8px;font-size:30px}
+    .lead{margin:0;color:color-mix(in srgb, var(--text) 78%, transparent);line-height:1.55}
+
+    section{padding:18px 0}
+    .secHead{
+      display:flex;align-items:end;justify-content:space-between;gap:12px;
+      margin: 6px 0 12px;
+    }
+    .secHead h2{margin:0;font-size:18px}
+    .secHead p{margin:0;color:var(--muted);font-size:13px}
+
+    .hoverable{
+      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease;
+      will-change: transform;
+    }
+    .hoverable:hover{
+      transform: translateY(var(--hoverY)) scale(var(--hoverScale));
+      box-shadow: var(--hoverShadow);
+      filter: brightness(1.01);
+    }
+
+    .previewLink{
+      display:block;
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      position:relative;
+    }
+    .previewLink img{
+      width:100%;
+      height:320px;
+      object-fit:cover;
+      display:block;
+    }
+    .previewOverlay{
+      position:absolute; inset:auto 14px 14px 14px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 14px;
+      border-radius:18px;
+      border:1px solid color-mix(in srgb, var(--line) 75%, transparent);
+      background: rgba(0,0,0,.30);
+      color: rgba(255,255,255,.95);
+      backdrop-filter: blur(10px);
+    }
+    html:not([data-theme="dark"]) .previewOverlay{background: rgba(15,23,42,.40);}
+    .previewOverlay .title{font-weight:800; letter-spacing:.2px}
+    .previewOverlay .meta{opacity:.9; font-size:12px; margin-top:2px}
+    .pill{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.35);
+      background: rgba(255,255,255,.16);
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    /* MÓDULOS */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+      box-shadow: var(--shadow2);
+      min-height: 320px;
+    }
+    .card img{
+      height:140px; width:100%;
+      object-fit:cover; display:block;
+      transition: transform .25s ease;
+    }
+    .card:hover img{ transform: scale(1.06); }
+    .card .body{padding:14px}
+    .card h3{margin:0 0 6px;font-size:14px; letter-spacing:.3px}
+    .card p{margin:0;font-size:13px;color:var(--muted); line-height:1.45}
+    .card .footer{margin-top:auto; padding:14px; padding-top:0}
+
+    .btn{
+      display:flex; justify-content:center; align-items:center; gap:8px;
+      width:100%;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid color-mix(in srgb, var(--brand) 45%, var(--line));
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--brand) 18%, transparent),
+        color-mix(in srgb, var(--brand) 10%, transparent)
+      );
+      font-weight:800;
+      transition: transform .12s ease, filter .12s ease;
+      cursor:pointer;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      filter: brightness(.98);
+      border-color: color-mix(in srgb, var(--brand2) 55%, var(--line));
+    }
+
+    /* 3 BLOQUES */
+    .blocks3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .block{
+      border:1px solid var(--line);
+      border-radius:24px;
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height: 240px;
+    }
+    .block img{
+      height:120px;width:100%;
+      object-fit:cover;display:block;
+      transition: transform .25s ease;
+    }
+    .block:hover img{ transform: scale(1.06); }
+    .block .body{padding:14px}
+    .block h3{margin:0 0 6px;font-size:15px}
+    .block p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .block .footer{margin-top:auto;padding:14px;padding-top:0}
+
+    .singleBox{
+      border:1px solid var(--line);
+      border-radius:24px;
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      cursor:pointer;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      padding:16px;
+    }
+    .singleBox .icon{
+      width:56px;height:56px;border-radius:18px;
+      display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--brand) 25%, transparent),
+        color-mix(in srgb, var(--brand2) 18%, transparent)
+      );
+      border:1px solid color-mix(in srgb, var(--line) 80%, transparent);
+    }
+    .singleBox .icon svg{width:26px;height:26px; fill: var(--text); opacity:.9}
+    .singleBox .txt{flex:1}
+    .singleBox .txt h3{margin:0 0 4px;font-size:16px}
+    .singleBox .txt p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .singleBox .cta{
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid color-mix(in srgb, var(--brand) 45%, var(--line));
+      background: color-mix(in srgb, var(--brand) 14%, transparent);
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    /* ✅ Indicadores de gestión (2 cuadros) */
+    .cards2{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:12px;
+    }
+    .card2{
+      border:1px solid var(--line);
+      border-radius:24px;
+      background: var(--card);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height: 260px;
+    }
+    .card2 .topImg{
+      width:100%;
+      height:150px;
+      object-fit:cover;
+      display:block;
+      transition: transform .25s ease;
+    }
+    .card2:hover .topImg{transform: scale(1.06);}
+    .card2 .body{padding:14px}
+    .card2 h3{margin:0 0 6px;font-size:15px}
+    .card2 p{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .card2 .footer{margin-top:auto;padding:14px;padding-top:0}
+
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:14px;
+      z-index: 1000;
+      background: rgba(2,6,23,.65);
+    }
+    .modal.open{display:flex;}
+    .modalCard{
+      width: min(1400px, 100%);
+      background: var(--card2);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .modalTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+      background: color-mix(in srgb, var(--card2) 80%, transparent);
+    }
+    .modalTop strong{font-size:14px}
+    .closeBtn{
+      border:1px solid var(--line);
+      background: color-mix(in srgb, var(--card) 85%, transparent);
+      color: var(--text);
+      padding:8px 10px;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .modalBody{padding: 12px;}
+    .modalBody img{
+      width:100%;
+      height:auto;
+      max-height: 92vh;
+      object-fit: contain;
+      display:block;
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+    }
+
+    footer{
+      padding:24px 0 40px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+      border-top:1px solid var(--line);
+      margin-top:20px;
+    }
+
+    .fabWrap{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      z-index: 999;
+    }
+    .fab{
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      border: 1px solid color-mix(in srgb, var(--line) 85%, transparent);
+      background: color-mix(in srgb, var(--card2) 85%, transparent);
+      box-shadow: var(--shadow2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .fab:hover{transform: translateY(-1px); filter: brightness(.98)}
+    .fab svg{width:22px;height:22px; fill: var(--text); opacity:.9}
+
+    .fab.rainbow{
+      border: none;
+      background: linear-gradient(135deg, #22c55e, #0ea5e9, #a78bfa, #f97316);
+      background-size: 220% 220%;
+      animation: hue 6s ease infinite;
+    }
+    .fab.rainbow svg{fill: white; opacity:1}
+    @keyframes hue{
+      0%{background-position: 0% 50%}
+      50%{background-position: 100% 50%}
+      100%{background-position: 0% 50%}
+    }
+
+    @media (max-width: 980px){
+      .cards{grid-template-columns: repeat(2, 1fr)}
+      .blocks3{grid-template-columns: 1fr}
+      .cards2{grid-template-columns: 1fr}
+      h1{font-size:26px}
+      .previewLink img{height:260px}
+    }
+    @media (max-width: 520px){
+      .cards{grid-template-columns: 1fr}
+      .previewLink img{height:220px}
+      .singleBox{flex-direction:column; align-items:flex-start}
+      .singleBox .cta{align-self:flex-end}
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap topbar">
+    <a class="brand" href="#">
+      <img src="img/logo.jpeg" alt="Logo">
+      <div>
+        <strong>P.S. Collanac</strong>
+        <small>Área de Estadística</small>
+      </div>
+    </a>
+
+    <nav>
+      <a href="https://docs.google.com/spreadsheets/d/1DDTUBP_P3lCyntXjtd3k61FfotJFbT-oNY6S5N1ca8A/edit?usp=sharing">Reporte Epidemiología</a>
+      <a href="https://pumalima.github.io/REPORTE-EPIDEMIOLOGICO/"> Registro Epidemiología</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="heroCard">
+      <h1>Puesto de Salud Collanac</h1>
+      <p class="lead">Panel de acceso a reportes y tableros estadísticos.</p>
+    </div>
+  </section>
+
+  <!-- AVANCE VACUNAS -->
+  <section id="vacunas">
+    <div class="secHead">
+      <div>
+        <h2>Avance de Vacunas Priorizadas</h2>
+        <p>Click para ingresar</p>
+      </div>
+    </div>
+
+    <a class="previewLink hoverable" href="https://app.powerbi.com/view?r=eyJrIjoiN2Y0OWFkZDItYTRjZC00MzQ4LTgwZGUtZDY2ODU3MDFmMmMwIiwidCI6ImUxMjI4MjgxLTk4YmMtNGM4ZS05OTg5LWQxNmYxMzIyOGVkYiJ9" target="_blank" rel="noopener">
+      <img src="img/vacunas.png" alt="Vista previa - Avance de vacunas">
+      <div class="previewOverlay">
+        <div>
+          <div class="title">Avance de Vacunas Priorizadas</div>
+          <div class="meta">Vista previa del tablero</div>
+        </div>
+        <div class="pill">Ingresar →</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section id="modulos">
+    <div class="secHead">
+      <div>
+        <h2>Módulos de Estadística</h2>
+        <p>Accede a los tableros operativos</p>
+      </div>
+    </div>
+
+    <div class="cards">
+      <article class="card hoverable">
+        <img src="img/anemia.jpg" alt="Anemia">
+        <div class="body">
+          <h3>ANEMIA</h3>
+          <p>Seguimiento y control de indicadores.</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://docs.google.com/spreadsheets/d/1hzNrSBbhW_oImaGX_OYobPr3bwDMU72a/edit?usp=sharing&ouid=118325648446038137906&rtpof=true&sd=true" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <article class="card hoverable">
+        <img src="img/suplementacion.jpg" alt="Suplementación">
+        <div class="body">
+          <h3>SUPLEMENTACIÓN Y VISITAS</h3>
+          <p>Control de suplementación y visitas.</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://docs.google.com/spreadsheets/d/18z61Ljs_qJO2cv2OqSuVnjGInuyUAC_w9ULgnltlrks/edit?gid=0#gid=0" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <article class="card hoverable">
+        <img src="img/cred.jpg" alt="Niños con citas">
+        <div class="body">
+          <h3>NIÑOS CON CITAS (MENOR 1 AÑO)</h3>
+          <p>Lista de citas y seguimiento por fecha.</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://docs.google.com/spreadsheets/d/1mB0RNNGOBUDP7YwqBnCaLzjYFAm3QmaG/edit?gid=225834004#gid=225834004" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <article class="card hoverable">
+        <img src="img/rn.jpg" alt="Control CRED RN">
+        <div class="body">
+          <h3>CONTROL CRED RN</h3>
+          <p>Seguimiento de recién nacidos.</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://pumalima.github.io/credrn/" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <!-- ✅ NUEVO: REPORTE 40 DE PRODUCCIÓN -->
+      <article class="card hoverable">
+        <img src="img/reporte40.png" alt="Reporte 40 de Producción" onerror="this.style.display='none'">
+        <div class="body">
+          <h3>REPORTE 40 DE PRODUCCIÓN</h3>
+          <p>Acceso al Reporte 40 (producción).</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://pumalima.github.io/reporte40/" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <!-- ✅ NUEVO: SEGUIMIENTO DE ZOONOSIS -->
+      <article class="card hoverable">
+        <img src="img/zoonosis.png" alt="Seguimiento de Zoonosis" onerror="this.style.display='none'">
+        <div class="body">
+          <h3>SEGUIMIENTO DE ZOONOSIS</h3>
+          <p>Seguimiento de zoonosis (vacunas).</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://pumalima.github.io/zoonosis/" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ✅ INDICADORES DE GESTIÓN -->
+  <section id="indicadores-gestion">
+    <div class="secHead">
+      <div>
+        <h2>Indicadores de gestión</h2>
+        <p>Accesos rápidos</p>
+      </div>
+    </div>
+
+    <div class="cards2">
+      <article class="card2 hoverable">
+        <img class="topImg" src="img/desempeño.png" alt="Indicadores de desempeño" onerror="this.style.display='none'">
+        <div class="body">
+          <h3>Indicadores de desempeño</h3>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiODQ1NjRkMmItZTk5ZC00NTQ1LTgwNmMtN2Q2YWU5YzI0ZDdjIiwidCI6IjRiNzkzNTEwLWQyNTUtNDRkMC04MDdiLWY5NGYxNjhmOTgxYiIsImMiOjR9" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <article class="card2 hoverable">
+        <img class="topImg" src="img/trazadores.png" alt="Trazadores" onerror="this.style.display='none'">
+        <div class="body">
+          <h3>Indicadores de Trazadores</h3>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://example.com/trazadores" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- NORMATIVA -->
+  <section id="normativa">
+    <div class="secHead">
+      <div>
+        <h2>Normativa</h2>
+        <p>Click para ver la imagen</p>
+      </div>
+    </div>
+
+    <div class="singleBox hoverable" id="openNorma" role="button" tabindex="0" aria-label="Abrir Nueva Normativa CRED">
+      <div class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h6v2H8V8Z"/>
+        </svg>
+      </div>
+      <div class="txt">
+        <h3>NUEVA NORMATIVA CRED</h3>
+        <p>Ver imagen completa de la normativa (CRED).</p>
+      </div>
+      <div class="cta">Ver →</div>
+    </div>
+  </section>
+
+  <!-- ACCESOS ADICIONALES -->
+  <section id="bloques">
+    <div class="secHead">
+      <div>
+        <h2>Accesos adicionales</h2>
+        <p>3 páginas rápidas</p>
+      </div>
+    </div>
+
+    <div class="blocks3">
+      <article class="block hoverable">
+        <img src="img/formatohisminsa.png" alt="Formato HIS MINSA">
+        <div class="body">
+          <h3>FORMATO HIS MINSA</h3>
+          <p>Plantilla/estructura para registro HIS.</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://drive.google.com/drive/u/0/folders/13ozK893JIu7r-Ypv7S0YIywtvlXu6176" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <article class="block hoverable">
+        <img src="img/manualhis.png" alt="Manual HIS MINSA">
+        <div class="body">
+          <h3>MANUAL HIS MINSA</h3>
+          <p>Guía de uso y llenado.</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://drive.google.com/drive/u/0/folders/10zSn2CThyHAvXsyrKVSx1vj0GFNzppan" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+
+      <article class="block hoverable">
+        <img src="img/modelohisminsa.png" alt="Modelos HIS MINSA">
+        <div class="body">
+          <h3>MODELOS HIS MINSA</h3>
+          <p>Modelos y ejemplos de registros.</p>
+        </div>
+        <div class="footer">
+          <a class="btn" href="https://drive.google.com/drive/u/0/folders/1HdBjHkzt9Gm9L3gFsuaKMloowJvTUrxk" target="_blank" rel="noopener">Ingresar →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 PUMA LIMA LUIS - Área de Estadística
+</footer>
+
+<!-- MODAL: NUEVA NORMATIVA CRED -->
+<div class="modal" id="normaModal" aria-hidden="true" aria-label="Imagen - Nueva Normativa CRED">
+  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="normaTitle">
+    <div class="modalTop">
+      <strong id="normaTitle">NUEVA NORMATIVA CRED</strong>
+      <button class="closeBtn" id="closeNorma" type="button">Cerrar ✕</button>
+    </div>
+    <div class="modalBody">
+      <img src="img/normacred.png" alt="Nueva Normativa CRED">
+    </div>
+  </div>
+</div>
+
+<!-- BOTONES FLOTANTES -->
+<div class="fabWrap" aria-label="Acciones rápidas">
+  <button class="fab rainbow" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 18a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1Z"/>
+    </svg>
+  </button>
+
+  <button class="fab" id="topBtn" title="Subir arriba" aria-label="Subir arriba">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8L6.4 13.4 5 12l7-7z"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  // Scroll suave
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      const el = document.querySelector(id);
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Subir arriba
+  document.getElementById('topBtn').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Tema + guardar
+  const root = document.documentElement;
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') root.setAttribute('data-theme', 'dark');
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      root.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    } else {
+      root.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Modal Normativa
+  const modal = document.getElementById('normaModal');
+  const openBtn = document.getElementById('openNorma');
+  const closeBtn = document.getElementById('closeNorma');
+
+  function openModal(){
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', openModal);
+  openBtn.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+  });
+  closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+</script>
+
+</body>
+</html>
