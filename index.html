@@ -8,7 +8,6 @@
 
   <style>
     :root{
-      /* Claro por defecto */
       --bg: #eef4ff;
       --bg2:#f7fbff;
       --card: rgba(255,255,255,.80);
@@ -29,7 +28,6 @@
       --hoverShadow: 0 26px 60px rgba(2,6,23,.18);
     }
 
-    /* Oscuro (si lo activas) */
     html[data-theme="dark"]{
       --bg:#0b1220;
       --bg2:#0f1a31;
@@ -174,7 +172,6 @@
       white-space:nowrap;
     }
 
-    /* MÓDULOS */
     .cards{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
@@ -220,7 +217,6 @@
       border-color: color-mix(in srgb, var(--brand2) 55%, var(--line));
     }
 
-    /* 3 BLOQUES */
     .blocks3{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -280,7 +276,6 @@
       white-space:nowrap;
     }
 
-    /* ✅ Indicadores de gestión (2 cuadros) */
     .cards2{
       display:grid;
       grid-template-columns: repeat(2, 1fr);
@@ -436,14 +431,13 @@
 
     <nav>
       <a href="https://docs.google.com/spreadsheets/d/1DDTUBP_P3lCyntXjtd3k61FfotJFbT-oNY6S5N1ca8A/edit?usp=sharing">Reporte Epidemiología</a>
-      <a href="https://pumalima.github.io/REPORTE-EPIDEMIOLOGICO/"> Registro Epidemiología</a>
+      <a href="https://pumalima.github.io/REPORTE-EPIDEMIOLOGICO/">Registro Epidemiología</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
 
-  <!-- HERO -->
   <section class="hero">
     <div class="heroCard">
       <h1>Puesto de Salud Collanac</h1>
@@ -451,7 +445,6 @@
     </div>
   </section>
 
-  <!-- AVANCE VACUNAS -->
   <section id="vacunas">
     <div class="secHead">
       <div>
@@ -472,7 +465,6 @@
     </a>
   </section>
 
-  <!-- MÓDULOS -->
   <section id="modulos">
     <div class="secHead">
       <div>
@@ -522,11 +514,10 @@
           <p>Seguimiento de recién nacidos.</p>
         </div>
         <div class="footer">
-          <a class="btn" href="https://docs.google.com/spreadsheets/d/1fVmGaLduTjRjqYE7dWhdE421fqpKwESF/edit?usp=sharing&ouid=118325648446038137906&rtpof=true&sd=true" target="_blank" rel="noopener">Ingresar →</a>
+          <a class="btn" href="https://pumalima.github.io/credrn/" target="_blank" rel="noopener">Ingresar →</a>
         </div>
       </article>
 
-      <!-- ✅ NUEVO: REPORTE 40 DE PRODUCCIÓN -->
       <article class="card hoverable">
         <img src="img/reporte40.png" alt="Reporte 40 de Producción" onerror="this.style.display='none'">
         <div class="body">
@@ -538,22 +529,19 @@
         </div>
       </article>
 
-      <!-- ✅ NUEVO: SEGUIMIENTO DE ZOONOSIS -->
       <article class="card hoverable">
-        <img src="img/zoonosis.png" alt="Seguimiento de Zoonosis" onerror="this.style.display='none'">
+        <img src="img/dengue.png" alt="Seguimiento de Dengue" onerror="this.style.display='none'">
         <div class="body">
-          <h3>SEGUIMIENTO DE ZOONOSIS</h3>
-          <p>Seguimiento de zoonosis (vacunas).</p>
+          <h3>SEGUIMIENTO DE DENGUE</h3>
+          <p>SEGUIMIENTO DE CASOS DE DENGUE</p>
         </div>
         <div class="footer">
-          <a class="btn" href="https://pumalima.github.io/zoonosis/" target="_blank" rel="noopener">Ingresar →</a>
+          <a class="btn" href="https://pumalima.github.io/dengue/" target="_blank" rel="noopener">Ingresar →</a>
         </div>
       </article>
-
     </div>
   </section>
 
-  <!-- ✅ INDICADORES DE GESTIÓN -->
   <section id="indicadores-gestion">
     <div class="secHead">
       <div>
@@ -569,7 +557,7 @@
           <h3>Indicadores de desempeño</h3>
         </div>
         <div class="footer">
-          <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiZjZkNTA1NWEtYTRkZi00ZDAwLTlhYzEtMWM4MjBiYjg5ZjQ4IiwidCI6ImM0YTY2YzM0LTJiYjctNDUxZi04YmUxLWIyYzI2YTQzMDE1OCIsImMiOjR9" target="_blank" rel="noopener">Ingresar →</a>
+          <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiODQ1NjRkMmItZTk5ZC00NTQ1LTgwNmMtN2Q2YWU5YzI0ZDdjIiwidCI6IjRiNzkzNTEwLWQyNTUtNDRkMC04MDdiLWY5NGYxNjhmOTgxYiIsImMiOjR9" target="_blank" rel="noopener">Ingresar →</a>
         </div>
       </article>
 
@@ -579,13 +567,12 @@
           <h3>Indicadores de Trazadores</h3>
         </div>
         <div class="footer">
-          <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNmY0NTZiMjUtMDkzZS00ZGJiLWFiM2EtNTdjOWFjYjIyZjhhIiwidCI6ImUxMjI4MjgxLTk4YmMtNGM4ZS05OTg5LWQxNmYxMzIyOGVkYiJ9" target="_blank" rel="noopener">Ingresar →</a>
+          <a class="btn" href="https://example.com/trazadores" target="_blank" rel="noopener">Ingresar →</a>
         </div>
       </article>
     </div>
   </section>
 
-  <!-- NORMATIVA -->
   <section id="normativa">
     <div class="secHead">
       <div>
@@ -608,7 +595,6 @@
     </div>
   </section>
 
-  <!-- ACCESOS ADICIONALES -->
   <section id="bloques">
     <div class="secHead">
       <div>
@@ -659,7 +645,6 @@
   © 2026 PUMA LIMA LUIS - Área de Estadística
 </footer>
 
-<!-- MODAL: NUEVA NORMATIVA CRED -->
 <div class="modal" id="normaModal" aria-hidden="true" aria-label="Imagen - Nueva Normativa CRED">
   <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="normaTitle">
     <div class="modalTop">
@@ -672,7 +657,6 @@
   </div>
 </div>
 
-<!-- BOTONES FLOTANTES -->
 <div class="fabWrap" aria-label="Acciones rápidas">
   <button class="fab rainbow" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -688,7 +672,6 @@
 </div>
 
 <script>
-  // Scroll suave
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href');
@@ -699,12 +682,10 @@
     });
   });
 
-  // Subir arriba
   document.getElementById('topBtn').addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Tema + guardar
   const root = document.documentElement;
   const saved = localStorage.getItem('theme');
   if (saved === 'dark') root.setAttribute('data-theme', 'dark');
@@ -719,7 +700,6 @@
     }
   });
 
-  // Modal Normativa
   const modal = document.getElementById('normaModal');
   const openBtn = document.getElementById('openNorma');
   const closeBtn = document.getElementById('closeNorma');
@@ -752,5 +732,3 @@
 
 </body>
 </html>
-
-
