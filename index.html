@@ -18,6 +18,7 @@
       --brand: #0ea5e9;
       --brand2:#22c55e;
       --brand3:#a78bfa;
+      --danger:#ef4444;
       --radius: 18px;
       --max: 1100px;
       --shadow: 0 18px 50px rgba(2,6,23,.12);
@@ -53,10 +54,141 @@
         radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.18), transparent 60%),
         radial-gradient(1000px 700px at 110% 10%, rgba(34,197,94,.14), transparent 60%),
         linear-gradient(180deg, var(--bg2), var(--bg));
+      min-height:100vh;
     }
 
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:auto;padding:0 18px}
+
+    .loginScreen{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+    .loginCard{
+      width:min(460px,100%);
+      border:1px solid color-mix(in srgb, var(--brand) 25%, var(--line));
+      border-radius:28px;
+      background: color-mix(in srgb, var(--card2) 92%, transparent);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(12px);
+    }
+    .loginHero{
+      padding:26px 26px 12px;
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--brand) 24%, transparent),
+        color-mix(in srgb, var(--brand2) 20%, transparent),
+        color-mix(in srgb, var(--brand3) 16%, transparent)
+      );
+      position:relative;
+    }
+    .loginHero::after{
+      content:"";
+      position:absolute;
+      width:180px;
+      height:180px;
+      right:-40px;
+      top:-40px;
+      border-radius:50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--brand2) 45%, transparent), transparent 68%);
+      pointer-events:none;
+    }
+    .loginBrand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .loginBrand img{
+      width:56px;
+      height:56px;
+      border-radius:16px;
+      object-fit:cover;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.08);
+    }
+    .loginHero h1{
+      margin:0 0 8px;
+      font-size:28px;
+    }
+    .loginHero p{
+      margin:0;
+      color:color-mix(in srgb, var(--text) 76%, transparent);
+      line-height:1.5;
+    }
+    .loginBody{
+      padding:22px 26px 26px;
+    }
+    .field{margin-bottom:14px}
+    .label{
+      display:block;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:8px;
+      color:var(--muted);
+    }
+    .input{
+      width:100%;
+      padding:14px 14px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background: color-mix(in srgb, var(--card) 92%, transparent);
+      color:var(--text);
+      outline:none;
+      font-size:15px;
+    }
+    .input:focus{
+      border-color: color-mix(in srgb, var(--brand) 60%, var(--line));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
+    }
+    .loginBtn,
+    .btn,
+    .logoutBtn{
+      display:flex; justify-content:center; align-items:center; gap:8px;
+      width:100%;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid color-mix(in srgb, var(--brand) 45%, var(--line));
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--brand) 18%, transparent),
+        color-mix(in srgb, var(--brand) 10%, transparent)
+      );
+      color:var(--text);
+      font-weight:800;
+      transition: transform .12s ease, filter .12s ease;
+      cursor:pointer;
+    }
+    .loginBtn:hover,
+    .btn:hover,
+    .logoutBtn:hover{
+      transform: translateY(-1px);
+      filter: brightness(.98);
+      border-color: color-mix(in srgb, var(--brand2) 55%, var(--line));
+    }
+    .hint{
+      margin-top:12px;
+      font-size:12px;
+      color:var(--muted);
+      text-align:center;
+    }
+    .errorBox{
+      display:none;
+      margin-bottom:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid color-mix(in srgb, var(--danger) 35%, var(--line));
+      background: color-mix(in srgb, var(--danger) 10%, transparent);
+      color: color-mix(in srgb, var(--danger) 80%, var(--text));
+      font-size:13px;
+      font-weight:700;
+    }
+    .show{display:block}
+
+    .siteApp{display:none}
+    .siteApp.authenticated{display:block}
 
     header{
       position:sticky;top:0;z-index:10;
@@ -79,6 +211,7 @@
     }
     .brand strong{display:block;line-height:1.1}
     .brand small{color:var(--muted)}
+    .headerActions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     nav{display:flex;gap:10px;flex-wrap:wrap}
     nav a{
       padding:9px 12px;border-radius:999px;
@@ -88,6 +221,13 @@
       transition: transform .12s ease, filter .12s ease;
     }
     nav a:hover{color:var(--text); transform: translateY(-1px); filter: brightness(.98);}
+    .logoutBtn{
+      width:auto;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      white-space:nowrap;
+    }
 
     .hero{padding:28px 0 12px}
     .heroCard{
@@ -196,26 +336,6 @@
     .card h3{margin:0 0 6px;font-size:14px; letter-spacing:.3px}
     .card p{margin:0;font-size:13px;color:var(--muted); line-height:1.45}
     .card .footer{margin-top:auto; padding:14px; padding-top:0}
-
-    .btn{
-      display:flex; justify-content:center; align-items:center; gap:8px;
-      width:100%;
-      padding:12px;
-      border-radius:14px;
-      border:1px solid color-mix(in srgb, var(--brand) 45%, var(--line));
-      background: linear-gradient(180deg,
-        color-mix(in srgb, var(--brand) 18%, transparent),
-        color-mix(in srgb, var(--brand) 10%, transparent)
-      );
-      font-weight:800;
-      transition: transform .12s ease, filter .12s ease;
-      cursor:pointer;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      filter: brightness(.98);
-      border-color: color-mix(in srgb, var(--brand2) 55%, var(--line));
-    }
 
     .blocks3{
       display:grid;
@@ -413,265 +533,373 @@
       .previewLink img{height:220px}
       .singleBox{flex-direction:column; align-items:flex-start}
       .singleBox .cta{align-self:flex-end}
+      .headerActions{width:100%}
+      nav{width:100%}
+      .logoutBtn{width:100%}
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <div class="wrap topbar">
-    <a class="brand" href="#">
-      <img src="img/logo.jpeg" alt="Logo">
-      <div>
-        <strong>P.S. Collanac</strong>
-        <small>Área de Estadística</small>
-      </div>
-    </a>
-
-    <nav>
-      <a href="https://docs.google.com/spreadsheets/d/1DDTUBP_P3lCyntXjtd3k61FfotJFbT-oNY6S5N1ca8A/edit?usp=sharing">Reporte Epidemiología</a>
-      <a href="https://pumalima.github.io/REPORTE-EPIDEMIOLOGICO/">Registro Epidemiología</a>
-    </nav>
-  </div>
-</header>
-
-<main class="wrap">
-
-  <section class="hero">
-    <div class="heroCard">
-      <h1>Puesto de Salud Collanac</h1>
-      <p class="lead">Panel de acceso a reportes y tableros estadísticos.</p>
-    </div>
-  </section>
-
-  <section id="vacunas">
-    <div class="secHead">
-      <div>
-        <h2>Avance de Vacunas Priorizadas</h2>
-        <p>Click para ingresar</p>
-      </div>
-    </div>
-
-    <a class="previewLink hoverable" href="https://app.powerbi.com/view?r=eyJrIjoiN2Y0OWFkZDItYTRjZC00MzQ4LTgwZGUtZDY2ODU3MDFmMmMwIiwidCI6ImUxMjI4MjgxLTk4YmMtNGM4ZS05OTg5LWQxNmYxMzIyOGVkYiJ9" target="_blank" rel="noopener">
-      <img src="img/vacunas.png" alt="Vista previa - Avance de vacunas">
-      <div class="previewOverlay">
+<div class="loginScreen" id="loginScreen">
+  <div class="loginCard">
+    <div class="loginHero">
+      <div class="loginBrand">
+        <img src="img/logo.jpeg" alt="Logo">
         <div>
-          <div class="title">Avance de Vacunas Priorizadas</div>
-          <div class="meta">Vista previa del tablero</div>
+          <strong>P.S. Collanac</strong><br>
+          <small>Área de Estadística</small>
         </div>
-        <div class="pill">Ingresar →</div>
       </div>
-    </a>
-  </section>
-
-  <section id="modulos">
-    <div class="secHead">
-      <div>
-        <h2>Módulos de Estadística</h2>
-        <p>Accede a los tableros operativos</p>
-      </div>
+      <h1>Inicio de sesión</h1>
+      <p>Ingrese su usuario y contraseña para acceder al panel de reportes y tableros estadísticos.</p>
     </div>
 
-    <div class="cards">
-      <article class="card hoverable">
-        <img src="img/anemia.jpg" alt="Anemia">
-        <div class="body">
-          <h3>ANEMIA</h3>
-          <p>Seguimiento y control de indicadores.</p>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://docs.google.com/spreadsheets/d/1hzNrSBbhW_oImaGX_OYobPr3bwDMU72a/edit?usp=sharing&ouid=118325648446038137906&rtpof=true&sd=true" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
+    <div class="loginBody">
+      <div class="errorBox" id="loginError">Usuario o contraseña incorrectos.</div>
 
-      <article class="card hoverable">
-        <img src="img/suplementacion.jpg" alt="Suplementación">
-        <div class="body">
-          <h3>SUPLEMENTACIÓN Y VISITAS</h3>
-          <p>Control de suplementación y visitas.</p>
+      <form id="loginForm" autocomplete="off">
+        <div class="field">
+          <label class="label" for="username">Usuario</label>
+          <input class="input" id="username" name="username" type="text" placeholder="Ingrese su usuario" required>
         </div>
-        <div class="footer">
-          <a class="btn" href="https://docs.google.com/spreadsheets/d/18z61Ljs_qJO2cv2OqSuVnjGInuyUAC_w9ULgnltlrks/edit?gid=0#gid=0" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
 
-      <article class="card hoverable">
-        <img src="img/cred.jpg" alt="Niños con citas">
-        <div class="body">
-          <h3>NIÑOS CON CITAS (MENOR 1 AÑO)</h3>
-          <p>Lista de citas y seguimiento por fecha.</p>
+        <div class="field">
+          <label class="label" for="password">Contraseña</label>
+          <input class="input" id="password" name="password" type="password" placeholder="Ingrese su contraseña" required>
         </div>
-        <div class="footer">
-          <a class="btn" href="https://docs.google.com/spreadsheets/d/1mB0RNNGOBUDP7YwqBnCaLzjYFAm3QmaG/edit?gid=225834004#gid=225834004" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
 
-      <article class="card hoverable">
-        <img src="img/rn.jpg" alt="Control CRED RN">
-        <div class="body">
-          <h3>CONTROL CRED RN</h3>
-          <p>Seguimiento de recién nacidos.</p>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://pumalima.github.io/credrn/" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
+        <button class="loginBtn" type="submit">Ingresar al sistema →</button>
+      </form>
 
-      <article class="card hoverable">
-        <img src="img/reporte40.png" alt="Reporte 40 de Producción" onerror="this.style.display='none'">
-        <div class="body">
-          <h3>REPORTE 40 DE PRODUCCIÓN</h3>
-          <p>Acceso al Reporte 40 (producción).</p>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://pumalima.github.io/reporte40/" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
-
-      <article class="card hoverable">
-        <img src="img/dengue.png" alt="Seguimiento de Dengue" onerror="this.style.display='none'">
-        <div class="body">
-          <h3>SEGUIMIENTO DE DENGUE</h3>
-          <p>SEGUIMIENTO DE CASOS DE DENGUE</p>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://pumalima.github.io/dengue/" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section id="indicadores-gestion">
-    <div class="secHead">
-      <div>
-        <h2>Indicadores de gestión</h2>
-        <p>Accesos rápidos</p>
-      </div>
-    </div>
-
-    <div class="cards2">
-      <article class="card2 hoverable">
-        <img class="topImg" src="img/desempeño.png" alt="Indicadores de desempeño" onerror="this.style.display='none'">
-        <div class="body">
-          <h3>Indicadores de desempeño</h3>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiODQ1NjRkMmItZTk5ZC00NTQ1LTgwNmMtN2Q2YWU5YzI0ZDdjIiwidCI6IjRiNzkzNTEwLWQyNTUtNDRkMC04MDdiLWY5NGYxNjhmOTgxYiIsImMiOjR9" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
-
-      <article class="card2 hoverable">
-        <img class="topImg" src="img/trazadores.png" alt="Trazadores" onerror="this.style.display='none'">
-        <div class="body">
-          <h3>Indicadores de Trazadores</h3>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://example.com/trazadores" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section id="normativa">
-    <div class="secHead">
-      <div>
-        <h2>Normativa</h2>
-        <p>Click para ver la imagen</p>
-      </div>
-    </div>
-
-    <div class="singleBox hoverable" id="openNorma" role="button" tabindex="0" aria-label="Abrir Nueva Normativa CRED">
-      <div class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h6v2H8V8Z"/>
-        </svg>
-      </div>
-      <div class="txt">
-        <h3>NUEVA NORMATIVA CRED</h3>
-        <p>Ver imagen completa de la normativa (CRED).</p>
-      </div>
-      <div class="cta">Ver →</div>
-    </div>
-  </section>
-
-  <section id="bloques">
-    <div class="secHead">
-      <div>
-        <h2>Accesos adicionales</h2>
-        <p>3 páginas rápidas</p>
-      </div>
-    </div>
-
-    <div class="blocks3">
-      <article class="block hoverable">
-        <img src="img/formatohisminsa.png" alt="Formato HIS MINSA">
-        <div class="body">
-          <h3>FORMATO HIS MINSA</h3>
-          <p>Plantilla/estructura para registro HIS.</p>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://drive.google.com/drive/u/0/folders/13ozK893JIu7r-Ypv7S0YIywtvlXu6176" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
-
-      <article class="block hoverable">
-        <img src="img/manualhis.png" alt="Manual HIS MINSA">
-        <div class="body">
-          <h3>MANUAL HIS MINSA</h3>
-          <p>Guía de uso y llenado.</p>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://drive.google.com/drive/u/0/folders/10zSn2CThyHAvXsyrKVSx1vj0GFNzppan" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
-
-      <article class="block hoverable">
-        <img src="img/modelohisminsa.png" alt="Modelos HIS MINSA">
-        <div class="body">
-          <h3>MODELOS HIS MINSA</h3>
-          <p>Modelos y ejemplos de registros.</p>
-        </div>
-        <div class="footer">
-          <a class="btn" href="https://drive.google.com/drive/u/0/folders/1HdBjHkzt9Gm9L3gFsuaKMloowJvTUrxk" target="_blank" rel="noopener">Ingresar →</a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  © 2026 PUMA LIMA LUIS - Área de Estadística
-</footer>
-
-<div class="modal" id="normaModal" aria-hidden="true" aria-label="Imagen - Nueva Normativa CRED">
-  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="normaTitle">
-    <div class="modalTop">
-      <strong id="normaTitle">NUEVA NORMATIVA CRED</strong>
-      <button class="closeBtn" id="closeNorma" type="button">Cerrar ✕</button>
-    </div>
-    <div class="modalBody">
-      <img src="img/normacred.png" alt="Nueva Normativa CRED">
+      <div class="hint">si se olvido la contraseña contacta con el administrador</div>
     </div>
   </div>
 </div>
 
-<div class="fabWrap" aria-label="Acciones rápidas">
-  <button class="fab rainbow" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 18a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1Z"/>
-    </svg>
-  </button>
+<div class="siteApp" id="siteApp">
+  <header>
+    <div class="wrap topbar">
+      <a class="brand" href="#">
+        <img src="img/logo.jpeg" alt="Logo">
+        <div>
+          <strong>P.S. Collanac</strong>
+          <small>Área de Estadística</small>
+        </div>
+      </a>
 
-  <button class="fab" id="topBtn" title="Subir arriba" aria-label="Subir arriba">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8L6.4 13.4 5 12l7-7z"/>
-    </svg>
-  </button>
+      <div class="headerActions">
+        <nav>
+          <a href="https://docs.google.com/spreadsheets/d/1DDTUBP_P3lCyntXjtd3k61FfotJFbT-oNY6S5N1ca8A/edit?usp=sharing">Reporte Epidemiología</a>
+          <a href="https://pumalima.github.io/REPORTE-EPIDEMIOLOGICO/">Registro Epidemiología</a>
+        </nav>
+        <button class="logoutBtn" id="logoutBtn" type="button">Cerrar sesión</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="hero">
+      <div class="heroCard">
+        <h1>Puesto de Salud Collanac</h1>
+        <p class="lead">Panel de acceso a reportes y tableros estadísticos.</p>
+      </div>
+    </section>
+
+    <section id="vacunas">
+      <div class="secHead">
+        <div>
+          <h2>Avance de Vacunas Priorizadas</h2>
+          <p>Click para ingresar</p>
+        </div>
+      </div>
+
+      <a class="previewLink hoverable" href="https://app.powerbi.com/view?r=eyJrIjoiN2Y0OWFkZDItYTRjZC00MzQ4LTgwZGUtZDY2ODU3MDFmMmMwIiwidCI6ImUxMjI4MjgxLTk4YmMtNGM4ZS05OTg5LWQxNmYxMzIyOGVkYiJ9" target="_blank" rel="noopener">
+        <img src="img/vacunas.png" alt="Vista previa - Avance de vacunas">
+        <div class="previewOverlay">
+          <div>
+            <div class="title">Avance de Vacunas Priorizadas</div>
+            <div class="meta">Vista previa del tablero</div>
+          </div>
+          <div class="pill">Ingresar →</div>
+        </div>
+      </a>
+    </section>
+
+    <section id="modulos">
+      <div class="secHead">
+        <div>
+          <h2>Módulos de Estadística</h2>
+          <p>Accede a los tableros operativos</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="card hoverable">
+          <img src="img/anemia.jpg" alt="Anemia">
+          <div class="body">
+            <h3>ANEMIA</h3>
+            <p>Seguimiento y control de indicadores.</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://docs.google.com/spreadsheets/d/1hzNrSBbhW_oImaGX_OYobPr3bwDMU72a/edit?usp=sharing&ouid=118325648446038137906&rtpof=true&sd=true" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="card hoverable">
+          <img src="img/suplementacion.jpg" alt="Suplementación">
+          <div class="body">
+            <h3>SUPLEMENTACIÓN Y VISITAS</h3>
+            <p>Control de suplementación y visitas.</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://docs.google.com/spreadsheets/d/18z61Ljs_qJO2cv2OqSuVnjGInuyUAC_w9ULgnltlrks/edit?gid=0#gid=0" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="card hoverable">
+          <img src="img/cred.jpg" alt="Niños con citas">
+          <div class="body">
+            <h3>NIÑOS CON CITAS (MENOR 1 AÑO)</h3>
+            <p>Lista de citas y seguimiento por fecha.</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://docs.google.com/spreadsheets/d/1mB0RNNGOBUDP7YwqBnCaLzjYFAm3QmaG/edit?gid=225834004#gid=225834004" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="card hoverable">
+          <img src="img/rn.jpg" alt="Control CRED RN">
+          <div class="body">
+            <h3>CONTROL CRED RN</h3>
+            <p>Seguimiento de recién nacidos.</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://pumalima.github.io/credrn/" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="card hoverable">
+          <img src="img/reporte40.png" alt="Reporte 40 de Producción" onerror="this.style.display='none'">
+          <div class="body">
+            <h3>REPORTE 40 DE PRODUCCIÓN</h3>
+            <p>Acceso al Reporte 40 (producción).</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://pumalima.github.io/reporte40/" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="card hoverable">
+          <img src="img/dengue.png" alt="Seguimiento de Dengue" onerror="this.style.display='none'">
+          <div class="body">
+            <h3>SEGUIMIENTO DE DENGUE</h3>
+            <p>SEGUIMIENTO DE CASOS DE DENGUE</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://pumalima.github.io/dengue/" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="indicadores-gestion">
+      <div class="secHead">
+        <div>
+          <h2>Indicadores de gestión</h2>
+          <p>Accesos rápidos</p>
+        </div>
+      </div>
+
+      <div class="cards2">
+        <article class="card2 hoverable">
+          <img class="topImg" src="img/desempeño.png" alt="Indicadores de desempeño" onerror="this.style.display='none'">
+          <div class="body">
+            <h3>Indicadores de desempeño</h3>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiODQ1NjRkMmItZTk5ZC00NTQ1LTgwNmMtN2Q2YWU5YzI0ZDdjIiwidCI6IjRiNzkzNTEwLWQyNTUtNDRkMC04MDdiLWY5NGYxNjhmOTgxYiIsImMiOjR9" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="card2 hoverable">
+          <img class="topImg" src="img/trazadores.png" alt="Trazadores" onerror="this.style.display='none'">
+          <div class="body">
+            <h3>Indicadores de Trazadores</h3>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://app.powerbi.com/view?r=eyJrIjoiNmY0NTZiMjUtMDkzZS00ZGJiLWFiM2EtNTdjOWFjYjIyZjhhIiwidCI6ImUxMjI4MjgxLTk4YmMtNGM4ZS05OTg5LWQxNmYxMzIyOGVkYiJ9" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="normativa">
+      <div class="secHead">
+        <div>
+          <h2>Normativa</h2>
+          <p>Click para ver la imagen</p>
+        </div>
+      </div>
+
+      <div class="singleBox hoverable" id="openNorma" role="button" tabindex="0" aria-label="Abrir Nueva Normativa CRED">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M6 2h9l5 5v15a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Zm0-8h6v2H8V8Z"/>
+          </svg>
+        </div>
+        <div class="txt">
+          <h3>NUEVA NORMATIVA CRED</h3>
+          <p>Ver imagen completa de la normativa (CRED).</p>
+        </div>
+        <div class="cta">Ver →</div>
+      </div>
+    </section>
+
+    <section id="bloques">
+      <div class="secHead">
+        <div>
+          <h2>Accesos adicionales</h2>
+          <p>3 páginas rápidas</p>
+        </div>
+      </div>
+
+      <div class="blocks3">
+        <article class="block hoverable">
+          <img src="img/formatohisminsa.png" alt="Formato HIS MINSA">
+          <div class="body">
+            <h3>FORMATO HIS MINSA</h3>
+            <p>Plantilla/estructura para registro HIS.</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://drive.google.com/drive/u/0/folders/13ozK893JIu7r-Ypv7S0YIywtvlXu6176" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="block hoverable">
+          <img src="img/manualhis.png" alt="Manual HIS MINSA">
+          <div class="body">
+            <h3>MANUAL HIS MINSA</h3>
+            <p>Guía de uso y llenado.</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://drive.google.com/drive/u/0/folders/10zSn2CThyHAvXsyrKVSx1vj0GFNzppan" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+
+        <article class="block hoverable">
+          <img src="img/modelohisminsa.png" alt="Modelos HIS MINSA">
+          <div class="body">
+            <h3>MODELOS HIS MINSA</h3>
+            <p>Modelos y ejemplos de registros.</p>
+          </div>
+          <div class="footer">
+            <a class="btn" href="https://drive.google.com/drive/u/0/folders/1HdBjHkzt9Gm9L3gFsuaKMloowJvTUrxk" target="_blank" rel="noopener">Ingresar →</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 PUMA LIMA LUIS - Área de Estadística
+  </footer>
+
+  <div class="modal" id="normaModal" aria-hidden="true" aria-label="Imagen - Nueva Normativa CRED">
+    <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="normaTitle">
+      <div class="modalTop">
+        <strong id="normaTitle">NUEVA NORMATIVA CRED</strong>
+        <button class="closeBtn" id="closeNorma" type="button">Cerrar ✕</button>
+      </div>
+      <div class="modalBody">
+        <img src="img/normacred.png" alt="Nueva Normativa CRED">
+      </div>
+    </div>
+  </div>
+
+  <div class="fabWrap" aria-label="Acciones rápidas">
+    <button class="fab rainbow" id="themeBtn" title="Cambiar tema" aria-label="Cambiar tema">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 18a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1Z"/>
+      </svg>
+    </button>
+
+    <button class="fab" id="topBtn" title="Subir arriba" aria-label="Subir arriba">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8L6.4 13.4 5 12l7-7z"/>
+      </svg>
+    </button>
+  </div>
 </div>
 
 <script>
+  const ACCESS_USER = 'admin';
+  const ACCESS_PASS = '123456';
+  const SESSION_KEY = 'estadistica_auth_ok';
+
+  const root = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') root.setAttribute('data-theme', 'dark');
+
+  const loginScreen = document.getElementById('loginScreen');
+  const siteApp = document.getElementById('siteApp');
+  const loginForm = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+
+  function showApp(){
+    loginScreen.style.display = 'none';
+    siteApp.classList.add('authenticated');
+    document.body.style.overflow = '';
+  }
+
+  function showLogin(){
+    loginScreen.style.display = 'flex';
+    siteApp.classList.remove('authenticated');
+    document.body.style.overflow = 'auto';
+    setTimeout(() => usernameInput.focus(), 50);
+  }
+
+  function openSession(){
+    localStorage.setItem(SESSION_KEY, 'true');
+    showApp();
+  }
+
+  function closeSession(){
+    localStorage.removeItem(SESSION_KEY);
+    loginForm.reset();
+    loginError.classList.remove('show');
+    showLogin();
+  }
+
+  if (localStorage.getItem(SESSION_KEY) === 'true') {
+    showApp();
+  } else {
+    showLogin();
+  }
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const user = usernameInput.value.trim();
+    const pass = passwordInput.value;
+
+    if (user === ACCESS_USER && pass === ACCESS_PASS) {
+      loginError.classList.remove('show');
+      openSession();
+    } else {
+      loginError.classList.add('show');
+      passwordInput.value = '';
+      passwordInput.focus();
+    }
+  });
+
+  logoutBtn.addEventListener('click', closeSession);
+
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href');
@@ -686,9 +914,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  const root = document.documentElement;
-  const saved = localStorage.getItem('theme');
-  if (saved === 'dark') root.setAttribute('data-theme', 'dark');
   document.getElementById('themeBtn').addEventListener('click', () => {
     const isDark = root.getAttribute('data-theme') === 'dark';
     if (isDark) {
